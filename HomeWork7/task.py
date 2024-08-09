@@ -56,7 +56,11 @@ def main():
     user_agent = (
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36'
     )
+<<<<<<< HEAD
     url = 'https://www.youtube.com/@varlamov/videos'
+=======
+    url = 'https://www.youtube.com/playlist?list=PLG4l7qEQwqwHXipYPB4pEguHRXxPBJzQt'
+>>>>>>> a701d05626b9686abb3eb185c241bea179370448
     chrome_option = Options()
     chrome_option.add_argument(f'user-agent={user_agent}')
     driver = webdriver.Chrome(options=chrome_option)

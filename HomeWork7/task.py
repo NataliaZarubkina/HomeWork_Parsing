@@ -9,7 +9,6 @@ import csv
 
 
 def scroll_to_bottom(driver):
-    """Прокручивает страницу до конца."""
     size_length = driver.execute_script('return document.documentElement.scrollHeight')
     while True:
         driver.execute_script('window.scrollTo(0, document.documentElement.scrollHeight);')
@@ -21,7 +20,6 @@ def scroll_to_bottom(driver):
 
 
 def get_video_data(driver):
-    """Собирает данные о видео."""
     video_titles = driver.find_elements(By.XPATH, "//*[@id='video-title']")
     time_additions = driver.find_elements(By.XPATH, "//*[@id='metadata-line']/span[1]")
     views = driver.find_elements(By.XPATH, '//*[@id="metadata-line"]/span[2]')
@@ -38,13 +36,11 @@ def get_video_data(driver):
 
 
 def save_to_json(data, filename='video.json'):
-    """Сохраняет данные в JSON файл."""
     with open(filename, 'w', encoding='U8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
 
 def save_to_csv(data, filename='video.csv'):
-    """Сохраняет данные в CSV файл."""
     with open(filename, 'w', encoding='U8', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=data[0].keys())
         writer.writeheader()
@@ -52,15 +48,10 @@ def save_to_csv(data, filename='video.csv'):
 
 
 def main():
-    """Основная функция."""
     user_agent = (
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36'
     )
-<<<<<<< HEAD
     url = 'https://www.youtube.com/@varlamov/videos'
-=======
-    url = 'https://www.youtube.com/playlist?list=PLG4l7qEQwqwHXipYPB4pEguHRXxPBJzQt'
->>>>>>> a701d05626b9686abb3eb185c241bea179370448
     chrome_option = Options()
     chrome_option.add_argument(f'user-agent={user_agent}')
     driver = webdriver.Chrome(options=chrome_option)

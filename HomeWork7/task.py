@@ -9,7 +9,6 @@ import csv
 
 
 def scroll_to_bottom(driver):
-    """Прокручивает страницу до конца."""
     size_length = driver.execute_script('return document.documentElement.scrollHeight')
     while True:
         driver.execute_script('window.scrollTo(0, document.documentElement.scrollHeight);')
@@ -21,32 +20,27 @@ def scroll_to_bottom(driver):
 
 
 def get_video_data(driver):
-    """Собирает данные о видео."""
     video_titles = driver.find_elements(By.XPATH, "//*[@id='video-title']")
-    time_additions = driver.find_elements(By.XPATH, "//*[@id='video-info']/span[1]")
-    views = driver.find_elements(By.XPATH, "//*[@id='video-info']/span[3]")
-    authors = driver.find_elements(By.XPATH, "//*[@id='text']/a")
-
+    time_additions = driver.find_elements(By.XPATH, "//*[@id='metadata-line']/span[1]")
+    views = driver.find_elements(By.XPATH, '//*[@id="metadata-line"]/span[2]')
+   
     data = []
     for i in range(len(video_titles)):
         video_data = {
             'title': video_titles[i].text,
             'time_addition': time_additions[i].text,
-            'views': views[i].text,
-            'author': authors[i + 1].text  # author[0] - название канала, а не автора видео
+            'views': views[i].text,            
         }
         data.append(video_data)
     return data
 
 
-def save_to_json(data, filename='advertisement.json'):
-    """Сохраняет данные в JSON файл."""
+def save_to_json(data, filename='video.json'):
     with open(filename, 'w', encoding='U8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
 
-def save_to_csv(data, filename='advertisement.csv'):
-    """Сохраняет данные в CSV файл."""
+def save_to_csv(data, filename='video.csv'):
     with open(filename, 'w', encoding='U8', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=data[0].keys())
         writer.writeheader()
@@ -54,11 +48,10 @@ def save_to_csv(data, filename='advertisement.csv'):
 
 
 def main():
-    """Основная функция."""
     user_agent = (
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36'
     )
-    url = 'https://www.youtube.com/playlist?list=PLG4l7qEQwqwHXipYPB4pEguHRXxPBJzQt'
+    url = 'https://www.youtube.com/@varlamov/videos'
     chrome_option = Options()
     chrome_option.add_argument(f'user-agent={user_agent}')
     driver = webdriver.Chrome(options=chrome_option)
